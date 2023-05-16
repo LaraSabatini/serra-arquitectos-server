@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+      "target": "es2016",                       
+      "module": "commonjs",                     
+      "moduleResolution": "node",           
+      "baseUrl": ".",
+      "paths": {
+        "@config/*": ["./src/config/*"],
+        "@controllers/*": ["./src/controllers/*"],
+        "@database/*": ["./src/database/*"],
+        "@helpers/*": ["./src/helpers/*"],
+        "@interfaces/*": ["./src/interfaces/*"],
+        "@routes/*": ["./src/routes/*"],
+        "@emails/*": ["./src/emails/*"],
+      },
+      "outDir": "./dist",                         
+      "allowSyntheticDefaultImports": true,  
+      "esModuleInterop": true,               
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,                         
+      "noUnusedLocals": true,                
+      "noUnusedParameters": true,            
+      "skipLibCheck": true,                      
+    }
+  }
