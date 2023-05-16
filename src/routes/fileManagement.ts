@@ -1,4 +1,5 @@
 import express from "express"
+import validateToken from "@helpers/auth/validateToken"
 import {
   uploadFiles,
   getFile,
@@ -8,15 +9,16 @@ import {
 
 const router = express.Router()
 
-router.post("/folderName=:folderName", uploadFiles)
+router.post("/folderName=:folderName", validateToken, uploadFiles)
 
-router.post("/new-folder", createFolder)
+router.post("/new-folder", validateToken, createFolder)
 
 router.get(
   "/folderName=:folderName&file_name=:file_name&file_extension=:file_extension",
+  validateToken,
   getFile,
 )
 
-router.delete("/route=:route", deleteFile)
+router.delete("/route=:route", validateToken, deleteFile)
 
 export default router
