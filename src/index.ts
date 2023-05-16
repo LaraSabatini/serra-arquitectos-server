@@ -1,6 +1,7 @@
 import express, { Express } from "express"
 import config from "@config/index"
 import auth from "@routes/auth"
+import files from "@routes/fileManagement"
 
 const app: Express = express()
 // settings
@@ -11,6 +12,7 @@ app.use(express.json())
 
 // routes
 app.use("/api/auth", auth)
+app.use("/api/files", files)
 
 app.get("/api", (_req, res) => {
   res.json({ message: "OK" })
