@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const index_1 = __importDefault(require("./config/index"));
 const auth_1 = __importDefault(require("./routes/auth"));
+const fileManagement_1 = __importDefault(require("./routes/fileManagement"));
 const app = (0, express_1.default)();
 // settings
 const port = 8000;
@@ -13,6 +14,7 @@ const port = 8000;
 app.use(express_1.default.json());
 // routes
 app.use("/api/auth", auth_1.default);
+app.use("/api/files", fileManagement_1.default);
 app.get("/api", (_req, res) => {
     res.json({ message: "OK" });
 });
