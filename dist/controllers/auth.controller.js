@@ -51,7 +51,7 @@ const signIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const [user] = yield index_1.default.query("SELECT * FROM users WHERE email = ?", [
         email,
     ]);
-    const validatePassword = yield (0, auth_1.compare)(password, user[0].password);
+    const validatePassword = user.length > 0 ? yield (0, auth_1.compare)(password, user[0].password) : false;
     if (!validatePassword)
         return res
             .status(responses_1.default.UNAUTHORIZED.status)
@@ -91,7 +91,7 @@ const sendRestorePasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0,
         if (user.length > 0)
             return (0, sendEmail_1.default)(recipients, "Recuperación de contraseña", "restorePassword", {
                 name: user[0].name,
-                restoreURL: `http://localhost:3000/api&pass=${user[0].password}&id=${user[0].id}`,
+                restoreURL: `http://localhost:3000/login?restore_password=true&redirected=true&pass=${user[0].password}&id=${user[0].id}&email=${recipients[0]}`,
             }, res);
         return res.status(responses_1.default.NOT_FOUND.status).json(responses_1.default.NOT_FOUND);
     }

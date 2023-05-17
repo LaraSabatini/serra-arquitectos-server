@@ -62,7 +62,8 @@ export const signIn = async (req: Request, res: Response) => {
     email,
   ])
 
-  const validatePassword = await compare(password, user[0].password)
+  const validatePassword =
+    user.length > 0 ? await compare(password, user[0].password) : false
 
   if (!validatePassword)
     return res
@@ -131,7 +132,7 @@ export const sendRestorePasswordEmail = async (req: any, res: any) => {
         "restorePassword",
         {
           name: user[0].name,
-          restoreURL: `http://localhost:3000/api&pass=${user[0].password}&id=${user[0].id}`,
+          restoreURL: `http://localhost:3000/login?restore_password=true&redirected=true&pass=${user[0].password}&id=${user[0].id}&email=${recipients[0]}`,
         },
         res,
       )
