@@ -5,6 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const index_1 = __importDefault(require("./config/index"));
+const express_fileupload_1 = __importDefault(require("express-fileupload"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const cors_1 = __importDefault(require("cors"));
 const auth_1 = __importDefault(require("./routes/auth"));
 const fileManagement_1 = __importDefault(require("./routes/fileManagement"));
 const sites_1 = __importDefault(require("./routes/sites"));
@@ -13,6 +16,15 @@ const app = (0, express_1.default)();
 const port = 8000;
 // middlewares
 app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: false }));
+app.use((0, cors_1.default)({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+}));
+app.use((0, express_fileupload_1.default)());
+app.use(express_1.default.static("files"));
+app.use(body_parser_1.default.json());
+app.use(body_parser_1.default.urlencoded({ extended: true }));
 // routes
 app.use("/api/auth", auth_1.default);
 app.use("/api/files", fileManagement_1.default);

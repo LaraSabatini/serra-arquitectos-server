@@ -1,5 +1,8 @@
 import express, { Express } from "express"
 import config from "@config/index"
+import fileUpload from "express-fileupload"
+import bodyParser from "body-parser"
+import cors from "cors"
 import auth from "@routes/auth"
 import files from "@routes/fileManagement"
 import sites from "@routes/sites"
@@ -10,6 +13,18 @@ const port = 8000
 
 // middlewares
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+  }),
+)
+
+app.use(fileUpload())
+app.use(express.static("files"))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 // routes
 app.use("/api/auth", auth)
