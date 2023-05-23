@@ -20,6 +20,8 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cors_1.default)({
     origin: ["http://localhost:3000"],
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
+    allowedHeaders: ["Content-Type", "Auth-Token"],
+    exposedHeaders: ["Content-Type", "Auth-Token"],
 }));
 app.use((0, express_fileupload_1.default)());
 app.use(express_1.default.static("files"));

@@ -37,6 +37,7 @@ const getSites = async (req: Request, res: Response) => {
       .json(responses.INTERNAL_SERVER_ERROR)
   }
 }
+
 const uploadSite = async (req: Request, res: Response) => {
   try {
     const {
@@ -58,10 +59,11 @@ const uploadSite = async (req: Request, res: Response) => {
 
     const rowData: ResultSetHeader = createSite as ResultSetHeader
 
-    if (rowData.affectedRows === 0)
+    if (rowData.affectedRows === 0) {
       return res
         .status(responses.INTERNAL_SERVER_ERROR.status)
         .json(responses.INTERNAL_SERVER_ERROR)
+    }
     return res.status(responses.CREATED.status).json(responses.CREATED)
   } catch (error) {
     return res

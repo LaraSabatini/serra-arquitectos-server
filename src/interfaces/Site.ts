@@ -3,9 +3,9 @@ interface ISite {
   code: string
   year: number
   principal: string
-  type: string
+  type: string[]
   location: string
-  tasks: { id: number; text: string }[]
+  tasks: string[]
   description: string
   size: number
   images: string[]

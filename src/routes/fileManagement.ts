@@ -5,6 +5,7 @@ import {
   getFile,
   deleteFile,
   createFolder,
+  deleteFolder,
 } from "@controllers/fileManagement.controller"
 
 const router = express.Router()
@@ -20,5 +21,7 @@ router.get(
 )
 
 router.delete("/route=:route", validateToken, deleteFile)
+
+router.delete("/folderName=:folderName", validateToken, deleteFolder)
 
 export default router

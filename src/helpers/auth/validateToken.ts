@@ -6,14 +6,17 @@ import config from "@config/index"
 const validateToken = (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.header("auth-token")
-    if (!token)
+    if (!token) {
       return res
         .status(responses.UNAUTHORIZED.status)
         .json(responses.UNAUTHORIZED)
+    }
     jwt.verify(token, config.SECRET_TOKEN || "token")
     next()
   } catch (e) {
-    res.status(responses.UNAUTHORIZED.status).send(responses.UNAUTHORIZED)
+    return res
+      .status(responses.UNAUTHORIZED.status)
+      .json(responses.UNAUTHORIZED)
   }
 }
 

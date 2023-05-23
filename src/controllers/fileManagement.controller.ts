@@ -5,7 +5,6 @@ import responses from "@config/responses"
 const createFolder = async (req: any, res: any) => {
   const { folderName } = req.body
   const directory = path.resolve(__dirname, "..", "files")
-  console.log(directory)
 
   if (!fs.existsSync(directory)) {
     fs.mkdirSync(directory)
@@ -15,43 +14,73 @@ const createFolder = async (req: any, res: any) => {
 
   if (!fs.existsSync(newFolderPath)) {
     fs.mkdirSync(newFolderPath)
-    res
-      .status(200)
-      .json({ message: `Folder '${folderName}' created successfully.` })
+    res.status(responses.CREATED.status).json(responses.CREATED)
   } else {
-    res.status(400).json({ message: `Folder '${folderName}' already exists.` })
+    res.status(responses.CONFLICT.status).json(responses.CONFLICT)
+  }
+}
+
+const deleteFolder = async (req: any, res: any) => {
+  const { folderName } = req.params
+  const folderPath = path.join(__dirname, "..", "files", folderName)
+
+  if (fs.existsSync(folderPath)) {
+    fs.rmdir(folderPath, { recursive: true }, err => {
+      if (err) {
+        res
+          .status(responses.INTERNAL_SERVER_ERROR.status)
+          .json(responses.INTERNAL_SERVER_ERROR)
+      } else {
+        res.status(responses.OK.status).json(responses.OK)
+      }
+    })
+  } else {
+    res.status(responses.NOT_FOUND.status).json(responses.NOT_FOUND)
   }
 }
 
 const uploadFiles = async (req: any, res: any) => {
-  const { file }: any = req.files
-  const { folderName } = req.params
+  try {
+    const files =
+      req.files.files.length === undefined ? [req.files.files] : req.files.files
+    const { folderName } = req.params
 
-  const filepath = path.resolve(
-    __dirname,
-    "..",
-    `files/${folderName}`,
-    file.name,
-  )
+    let success = true
+    for (const file of files) {
+      const filepath = path.resolve(
+        __dirname,
+        "..",
+        `files/${folderName}`,
+        file.name,
+      )
 
-  file.mv(filepath, (err: any) => {
-    if (err) {
-      res
-        .status(responses.INTERNAL_SERVER_ERROR.status)
-        .send(responses.INTERNAL_SERVER_ERROR)
+      file.mv(filepath, (err: any) => {
+        if (err) {
+          success = false
+        }
+        success = true
+      })
     }
-    res.status(responses.CREATED.status).send(responses.CREATED)
-  })
+    if (!success)
+      return res
+        .status(responses.INTERNAL_SERVER_ERROR.status)
+        .json(responses.INTERNAL_SERVER_ERROR)
+    return res.status(responses.CREATED.status).json(responses.CREATED)
+  } catch (error) {
+    return res
+      .status(responses.INTERNAL_SERVER_ERROR.status)
+      .json(responses.INTERNAL_SERVER_ERROR)
+  }
 }
 
 const getFile = async (req: any, res: any, next: any) => {
   const { folderName, fileName, fileExtension } = req.params
 
   const options = {
-    root: `http://localhost:8000/api/files/${folderName}`,
+    root: `http:localhost:8000/api/files/${folderName}`,
   }
 
-  res.sendFile(`${fileName}.${fileExtension}`, options, (err: any) => {
+  res.jsonFile(`${fileName}.${fileExtension}`, options, (err: any) => {
     if (err) {
       next(err)
     }
@@ -63,11 +92,11 @@ const deleteFile = async (req: any, res: any) => {
     if (error) {
       res
         .status(responses.INTERNAL_SERVER_ERROR.status)
-        .send(responses.INTERNAL_SERVER_ERROR)
+        .json(responses.INTERNAL_SERVER_ERROR)
     } else {
-      res.status(responses.CREATED.status).send(responses.CREATED)
+      res.status(responses.CREATED.status).json(responses.CREATED)
     }
   })
 }
 
-export { uploadFiles, getFile, deleteFile, createFolder }
+export { uploadFiles, getFile, deleteFile, createFolder, deleteFolder }

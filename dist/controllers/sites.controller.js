@@ -39,7 +39,7 @@ const getSites = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     catch (error) {
         return res
             .status(responses_1.default.INTERNAL_SERVER_ERROR.status)
-            .json(responses_1.default.INTERNAL_SERVER_ERROR);
+            .json(Object.assign(Object.assign({}, responses_1.default.INTERNAL_SERVER_ERROR), { error }));
     }
 });
 exports.getSites = getSites;
@@ -48,16 +48,17 @@ const uploadSite = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const { code, year, principal, type, location, tasks, description, size, images, } = req.body;
         const [createSite] = yield index_1.default.query("INSERT INTO sites (code,year,principal,type,location,tasks,description,size,images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [code, year, principal, type, location, tasks, description, size, images]);
         const rowData = createSite;
-        if (rowData.affectedRows === 0)
+        if (rowData.affectedRows === 0) {
             return res
                 .status(responses_1.default.INTERNAL_SERVER_ERROR.status)
                 .json(responses_1.default.INTERNAL_SERVER_ERROR);
+        }
         return res.status(responses_1.default.CREATED.status).json(responses_1.default.CREATED);
     }
     catch (error) {
         return res
             .status(responses_1.default.INTERNAL_SERVER_ERROR.status)
-            .json(responses_1.default.INTERNAL_SERVER_ERROR);
+            .json(Object.assign(Object.assign({}, responses_1.default.INTERNAL_SERVER_ERROR), { error }));
     }
 });
 exports.uploadSite = uploadSite;
