@@ -21,7 +21,7 @@ const getSites = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { page, category } = req.params;
         const offset = (0, pagination_1.getOffset)(index_2.default.listPerPage, parseInt(page, 10));
-        const [sites] = yield index_1.default.query(`SELECT * FROM sites WHERE type = '${category}' ORDER BY id DESC LIMIT ${offset},${index_2.default.listPerPage}`);
+        const [sites] = yield index_1.default.query(`SELECT * FROM sites WHERE type LIKE '%${category}%' ORDER BY id DESC LIMIT ${offset},${index_2.default.listPerPage}`);
         const [amountOfPages] = yield index_1.default.query(`SELECT COUNT(*) FROM sites`);
         if (sites) {
             const rowData = amountOfPages;
@@ -39,14 +39,26 @@ const getSites = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     catch (error) {
         return res
             .status(responses_1.default.INTERNAL_SERVER_ERROR.status)
-            .json(Object.assign(Object.assign({}, responses_1.default.INTERNAL_SERVER_ERROR), { error }));
+            .json(responses_1.default.INTERNAL_SERVER_ERROR);
     }
 });
 exports.getSites = getSites;
 const uploadSite = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { code, year, principal, type, location, tasks, description, size, images, } = req.body;
-        const [createSite] = yield index_1.default.query("INSERT INTO sites (code,year,principal,type,location,tasks,description,size,images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [code, year, principal, type, location, tasks, description, size, images]);
+        const { title, code, year, principal, type, location, tasks, description, size, images, otherFields, } = req.body;
+        const [createSite] = yield index_1.default.query("INSERT INTO sites (title, code, year, principal, type, location, tasks, description, size, images, otherFields) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [
+            title,
+            code,
+            year,
+            principal,
+            type,
+            location,
+            tasks,
+            description,
+            size,
+            images,
+            otherFields,
+        ]);
         const rowData = createSite;
         if (rowData.affectedRows === 0) {
             return res

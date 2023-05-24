@@ -57,13 +57,11 @@ const uploadFiles = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const files = req.files.files.length === undefined ? [req.files.files] : req.files.files;
         const { folderName } = req.params;
         let success = true;
-        let errorupload;
         for (const file of files) {
             const filepath = path_1.default.resolve(__dirname, "..", `files/${folderName}`, file.name);
             file.mv(filepath, (err) => {
                 if (err) {
                     success = false;
-                    errorupload = err;
                 }
                 success = true;
             });
@@ -71,13 +69,13 @@ const uploadFiles = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         if (!success)
             return res
                 .status(responses_1.default.INTERNAL_SERVER_ERROR.status)
-                .json(Object.assign(Object.assign({}, responses_1.default.INTERNAL_SERVER_ERROR), { errorupload }));
+                .json(responses_1.default.INTERNAL_SERVER_ERROR);
         return res.status(responses_1.default.CREATED.status).json(responses_1.default.CREATED);
     }
     catch (error) {
         return res
             .status(responses_1.default.INTERNAL_SERVER_ERROR.status)
-            .json(Object.assign(Object.assign({}, responses_1.default.INTERNAL_SERVER_ERROR), { error }));
+            .json(responses_1.default.INTERNAL_SERVER_ERROR);
     }
 });
 exports.uploadFiles = uploadFiles;

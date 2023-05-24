@@ -12,7 +12,7 @@ const getSites = async (req: Request, res: Response) => {
     const offset = getOffset(config.listPerPage, parseInt(page, 10))
 
     const [sites]: any = await pool.query(
-      `SELECT * FROM sites WHERE type = '${category}' ORDER BY id DESC LIMIT ${offset},${config.listPerPage}`,
+      `SELECT * FROM sites WHERE type LIKE '%${category}%' ORDER BY id DESC LIMIT ${offset},${config.listPerPage}`,
     )
 
     const [amountOfPages] = await pool.query(`SELECT COUNT(*) FROM sites`)
@@ -41,6 +41,7 @@ const getSites = async (req: Request, res: Response) => {
 const uploadSite = async (req: Request, res: Response) => {
   try {
     const {
+      title,
       code,
       year,
       principal,
@@ -50,11 +51,24 @@ const uploadSite = async (req: Request, res: Response) => {
       description,
       size,
       images,
+      otherFields,
     }: ISite = req.body
 
     const [createSite] = await pool.query(
-      "INSERT INTO sites (code,year,principal,type,location,tasks,description,size,images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [code, year, principal, type, location, tasks, description, size, images],
+      "INSERT INTO sites (title, code, year, principal, type, location, tasks, description, size, images, otherFields) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [
+        title,
+        code,
+        year,
+        principal,
+        type,
+        location,
+        tasks,
+        description,
+        size,
+        images,
+        otherFields,
+      ],
     )
 
     const rowData: ResultSetHeader = createSite as ResultSetHeader
@@ -68,7 +82,7 @@ const uploadSite = async (req: Request, res: Response) => {
   } catch (error) {
     return res
       .status(responses.INTERNAL_SERVER_ERROR.status)
-      .json(responses.INTERNAL_SERVER_ERROR)
+      .json({ ...responses.INTERNAL_SERVER_ERROR, error })
   }
 }
 
