@@ -38,6 +38,46 @@ const getSites = async (req: Request, res: Response) => {
   }
 }
 
+const getSiteById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params
+
+    const [site]: any = await pool.query(
+      `SELECT * FROM sites WHERE id = '${id}'`,
+    )
+
+    if (site) {
+      return res.status(responses.OK.status).json({
+        data: site,
+        status: responses.OK.status,
+      })
+    }
+  } catch (error) {
+    return res
+      .status(responses.INTERNAL_SERVER_ERROR.status)
+      .json(responses.INTERNAL_SERVER_ERROR)
+  }
+}
+
+const getSitesForCarousel = async (_req: Request, res: Response) => {
+  try {
+    const [sites]: any = await pool.query(
+      `SELECT id, title, type, images FROM sites ORDER BY id DESC LIMIT 0,5`,
+    )
+
+    if (sites) {
+      return res.status(responses.OK.status).json({
+        data: sites,
+        status: responses.OK.status,
+      })
+    }
+  } catch (error) {
+    return res
+      .status(responses.INTERNAL_SERVER_ERROR.status)
+      .json(responses.INTERNAL_SERVER_ERROR)
+  }
+}
+
 const uploadSite = async (req: Request, res: Response) => {
   try {
     const {
@@ -86,4 +126,4 @@ const uploadSite = async (req: Request, res: Response) => {
   }
 }
 
-export { getSites, uploadSite }
+export { getSites, uploadSite, getSitesForCarousel, getSiteById }

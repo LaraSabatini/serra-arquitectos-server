@@ -8,7 +8,7 @@ interface ISite {
   location: string
   tasks: string
   description: string
-  size: number
+  size: string
   images: string
   otherFields: string
 }
