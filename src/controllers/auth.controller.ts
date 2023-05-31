@@ -49,7 +49,7 @@ export const signUp = async (req: Request, res: Response) => {
       name: newUser.fullName,
       email: newUser.email,
       password: password,
-      loginURL: "http://localhost:3000/login",
+      loginURL: "https://serra-arquitectos-qa.vercel.app/login",
     },
     res,
   )
@@ -132,7 +132,7 @@ export const sendRestorePasswordEmail = async (req: any, res: any) => {
         "restorePassword",
         {
           name: user[0].name,
-          restoreURL: `http://localhost:3000/login?restore_password=true&redirected=true&pass=${user[0].password}&id=${user[0].id}&email=${recipients[0]}`,
+          restoreURL: `https://serra-arquitectos-qa.vercel.app/login?restore_password=true&redirected=true&pass=${user[0].password}&id=${user[0].id}&email=${recipients[0]}`,
         },
         res,
       )
