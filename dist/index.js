@@ -18,7 +18,10 @@ const port = 8000;
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
 app.use((0, cors_1.default)({
-    origin: ["http://localhost:3000"],
+    origin: [
+        "http://localhost:3000",
+        "https://serra-arquitectos-qa.vercel.app",
+    ],
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
     allowedHeaders: ["Content-Type", "Auth-Token"],
     exposedHeaders: ["Content-Type", "Auth-Token"],
