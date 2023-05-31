@@ -43,7 +43,7 @@ export const signUp = async (req: Request, res: Response) => {
       .json(responses.INTERNAL_SERVER_ERROR)
   return sendEmail(
     [newUser.email],
-    "Bienvenido a V11",
+    "Bienvenido a Serra Arquitectos",
     "signUp",
     {
       name: newUser.fullName,
