@@ -16,10 +16,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "https://serra-arquitectos-git-qa-larasabatini.vercel.app",
-    ],
+    origin: ["http://localhost:3000", "serra-arquitectos-qa.vercel.app"],
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
     allowedHeaders: ["Content-Type", "Auth-Token"],
     exposedHeaders: ["Content-Type", "Auth-Token"],
