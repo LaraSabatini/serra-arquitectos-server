@@ -42,7 +42,7 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         name: newUser.fullName,
         email: newUser.email,
         password: password,
-        loginURL: "https://serra-arquitectos-qa.vercel.app/login",
+        loginURL: `${index_2.default.FRONT_URL}/login`,
     }, res);
 });
 exports.signUp = signUp;
@@ -91,7 +91,7 @@ const sendRestorePasswordEmail = (req, res) => __awaiter(void 0, void 0, void 0,
         if (user.length > 0)
             return (0, sendEmail_1.default)(recipients, "Recuperación de contraseña", "restorePassword", {
                 name: user[0].name,
-                restoreURL: `https://serra-arquitectos-qa.vercel.app/login?restore_password=true&redirected=true&pass=${user[0].password}&id=${user[0].id}&email=${recipients[0]}`,
+                restoreURL: `${index_2.default.FRONT_URL}/login?restore_password=true&redirected=true&pass=${user[0].password}&id=${user[0].id}&email=${recipients[0]}`,
             }, res);
         return res.status(responses_1.default.NOT_FOUND.status).json(responses_1.default.NOT_FOUND);
     }

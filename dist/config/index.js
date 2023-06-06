@@ -39,6 +39,7 @@ const config = {
     MAIL_PASS: process.env.MAIL_PASS,
     EMAIL: process.env.EMAIL,
     SECRET_TOKEN: process.env.SECRET_TOKEN,
+    FRONT_URL: process.env.FRONT_URL,
     listPerPage: 25,
 };
 exports.default = config;
