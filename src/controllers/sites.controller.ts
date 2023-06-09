@@ -126,4 +126,82 @@ const uploadSite = async (req: Request, res: Response) => {
   }
 }
 
-export { getSites, uploadSite, getSitesForCarousel, getSiteById }
+const getSiteByCode = async (req: Request, res: Response) => {
+  try {
+    const { code } = req.params
+
+    const [site]: any = await pool.query(
+      `SELECT * FROM sites WHERE code LIKE '${code}'`,
+    )
+
+    if (site) {
+      return res.status(responses.OK.status).json({
+        data: site,
+        status: responses.OK.status,
+      })
+    }
+  } catch (error) {
+    return res
+      .status(responses.INTERNAL_SERVER_ERROR.status)
+      .json(responses.INTERNAL_SERVER_ERROR)
+  }
+}
+
+const editSite = async (req: Request, res: Response) => {
+  try {
+    const {
+      id,
+      title,
+      code,
+      year,
+      principal,
+      type,
+      location,
+      tasks,
+      description,
+      size,
+      images,
+      otherFields,
+    }: ISite = req.body
+
+    const [updateSite]: any = await pool.query(
+      "UPDATE sites SET title = ?, code = ?, year = ?, principal = ?, type = ?, location = ?, tasks = ?, description = ?, size = ?, images = ?, otherFields = ? WHERE id = ?",
+      [
+        title,
+        code,
+        year,
+        principal,
+        type,
+        location,
+        tasks,
+        description,
+        size,
+        images,
+        otherFields,
+        id,
+      ],
+    )
+
+    const rowData: ResultSetHeader = updateSite as ResultSetHeader
+
+    if (rowData.affectedRows === 0) {
+      return res
+        .status(responses.INTERNAL_SERVER_ERROR.status)
+        .json(responses.INTERNAL_SERVER_ERROR)
+    }
+    return res.status(responses.CREATED.status).json(responses.CREATED)
+  } catch (error) {
+    return res
+      .status(responses.INTERNAL_SERVER_ERROR.status)
+      .json({ ...responses.INTERNAL_SERVER_ERROR, error })
+  }
+}
+
+export {
+  getSites,
+  uploadSite,
+  getSitesForCarousel,
+  getSiteById,
+  getSiteByCode,
+  editSite,
+}

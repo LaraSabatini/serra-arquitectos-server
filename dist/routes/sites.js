@@ -11,4 +11,6 @@ router.get("/page=:page&category=:category", sites_controller_1.getSites);
 router.get("/", sites_controller_1.getSitesForCarousel);
 router.post("/", validateToken_1.default, sites_controller_1.uploadSite);
 router.get("/id=:id", sites_controller_1.getSiteById);
+router.get("/code=:code", sites_controller_1.getSiteByCode);
+router.put("/", validateToken_1.default, sites_controller_1.editSite);
 exports.default = router;
