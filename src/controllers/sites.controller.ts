@@ -38,6 +38,25 @@ const getSites = async (req: Request, res: Response) => {
   }
 }
 
+const getAllSites = async (_req: Request, res: Response) => {
+  try {
+    const [sites]: any = await pool.query(
+      `SELECT * FROM sites ORDER BY id DESC`,
+    )
+
+    if (sites) {
+      return res.status(responses.OK.status).json({
+        data: sites,
+        status: responses.OK.status,
+      })
+    }
+  } catch (error) {
+    return res
+      .status(responses.INTERNAL_SERVER_ERROR.status)
+      .json(responses.INTERNAL_SERVER_ERROR)
+  }
+}
+
 const getSiteById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params
@@ -204,4 +223,5 @@ export {
   getSiteById,
   getSiteByCode,
   editSite,
+  getAllSites,
 }

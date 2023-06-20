@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editSite = exports.getSiteByCode = exports.getSiteById = exports.getSitesForCarousel = exports.uploadSite = exports.getSites = void 0;
+exports.getAllSites = exports.editSite = exports.getSiteByCode = exports.getSiteById = exports.getSitesForCarousel = exports.uploadSite = exports.getSites = void 0;
 const index_1 = __importDefault(require("../database/index"));
 const index_2 = __importDefault(require("../config/index"));
 const pagination_1 = require("../helpers/pagination");
@@ -43,6 +43,23 @@ const getSites = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getSites = getSites;
+const getAllSites = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const [sites] = yield index_1.default.query(`SELECT * FROM sites ORDER BY id DESC`);
+        if (sites) {
+            return res.status(responses_1.default.OK.status).json({
+                data: sites,
+                status: responses_1.default.OK.status,
+            });
+        }
+    }
+    catch (error) {
+        return res
+            .status(responses_1.default.INTERNAL_SERVER_ERROR.status)
+            .json(responses_1.default.INTERNAL_SERVER_ERROR);
+    }
+});
+exports.getAllSites = getAllSites;
 const getSiteById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;

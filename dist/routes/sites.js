@@ -8,6 +8,7 @@ const validateToken_1 = __importDefault(require("../helpers/auth/validateToken")
 const sites_controller_1 = require("../controllers/sites.controller");
 const router = express_1.default.Router();
 router.get("/page=:page&category=:category", sites_controller_1.getSites);
+router.get("/all", sites_controller_1.getAllSites);
 router.get("/", sites_controller_1.getSitesForCarousel);
 router.post("/", validateToken_1.default, sites_controller_1.uploadSite);
 router.get("/id=:id", sites_controller_1.getSiteById);
