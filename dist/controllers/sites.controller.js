@@ -21,7 +21,7 @@ const getSites = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { page, category } = req.params;
         const offset = (0, pagination_1.getOffset)(index_2.default.listPerPage, parseInt(page, 10));
-        const [sites] = yield index_1.default.query(`SELECT * FROM sites WHERE type LIKE '%${category}%' ORDER BY id DESC LIMIT ${offset},${index_2.default.listPerPage}`);
+        const [sites] = yield index_1.default.query(`SELECT * FROM sites WHERE type LIKE '%${category}%' AND images NOT LIKE '[]' ORDER BY id DESC LIMIT ${offset},${index_2.default.listPerPage}`);
         const [amountOfPages] = yield index_1.default.query(`SELECT COUNT(*) FROM sites`);
         if (sites) {
             const rowData = amountOfPages;

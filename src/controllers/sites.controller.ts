@@ -12,7 +12,7 @@ const getSites = async (req: Request, res: Response) => {
     const offset = getOffset(config.listPerPage, parseInt(page, 10))
 
     const [sites]: any = await pool.query(
-      `SELECT * FROM sites WHERE type LIKE '%${category}%' ORDER BY id DESC LIMIT ${offset},${config.listPerPage}`,
+      `SELECT * FROM sites WHERE type LIKE '%${category}%' AND images NOT LIKE '[]' ORDER BY id DESC LIMIT ${offset},${config.listPerPage}`,
     )
 
     const [amountOfPages] = await pool.query(`SELECT COUNT(*) FROM sites`)
