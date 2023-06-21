@@ -41,7 +41,7 @@ const getSites = async (req: Request, res: Response) => {
 const getAllSites = async (_req: Request, res: Response) => {
   try {
     const [sites]: any = await pool.query(
-      `SELECT * FROM sites ORDER BY id DESC`,
+      `SELECT * FROM sites ORDER BY code DESC`,
     )
 
     if (sites) {
