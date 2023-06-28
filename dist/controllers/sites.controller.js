@@ -45,7 +45,7 @@ const getSites = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.getSites = getSites;
 const getAllSites = (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const [sites] = yield index_1.default.query(`SELECT * FROM sites ORDER BY code DESC`);
+        const [sites] = yield index_1.default.query(`SELECT * FROM sites ORDER BY year DESC`);
         if (sites) {
             return res.status(responses_1.default.OK.status).json({
                 data: sites,
