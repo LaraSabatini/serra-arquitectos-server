@@ -20,6 +20,7 @@ app.use(
       "http://localhost:3000",
       "https://serra-arquitectos-qa.vercel.app",
       "https://serra-arquitectos.vercel.app",
+      "https://serra-arquitectos.com.ar",
     ],
     methods: ["GET", "POST", "DELETE", "UPDATE", "PUT", "PATCH"],
     allowedHeaders: ["Content-Type", "Auth-Token"],
