@@ -34,7 +34,7 @@ app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 // routes
 app.use("/api/auth", auth_1.default);
-app.use("/api/files", fileManagement_1.default);
+app.use("/api/fileManagement", fileManagement_1.default);
 app.use("/api/sites", sites_1.default);
 app.get("/api", (_req, res) => {
     res.json({ message: "OK" });

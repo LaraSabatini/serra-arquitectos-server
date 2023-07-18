@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // routes
 app.use("/api/auth", auth)
-app.use("/api/files", files)
+app.use("/api/fileManagement", files)
 app.use("/api/sites", sites)
 
 app.get("/api", (_req, res) => {
