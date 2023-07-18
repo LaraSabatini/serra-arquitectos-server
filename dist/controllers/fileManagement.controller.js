@@ -82,7 +82,7 @@ exports.uploadFiles = uploadFiles;
 const getFile = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { folderName, fileName, fileExtension } = req.params;
     const options = {
-        root: `http:localhost:8000/api/files/${folderName}`,
+        root: `https://bardoweb.es/api/files/${folderName}`,
     };
     res.jsonFile(`${fileName}.${fileExtension}`, options, (err) => {
         if (err) {

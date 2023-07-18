@@ -77,7 +77,7 @@ const getFile = async (req: any, res: any, next: any) => {
   const { folderName, fileName, fileExtension } = req.params
 
   const options = {
-    root: `http:localhost:8000/api/files/${folderName}`,
+    root: `https://bardoweb.es/api/files/${folderName}`,
   }
 
   res.jsonFile(`${fileName}.${fileExtension}`, options, (err: any) => {
